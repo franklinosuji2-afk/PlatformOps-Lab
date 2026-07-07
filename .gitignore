@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.*
+dist/
+coverage/
+
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+
+.vscode/
+.idea/
+
+*.log
+
+.DS_Store
+Thumbs.db

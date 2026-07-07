@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platformops-frontend
+  namespace: platformops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: platformops-frontend
+  template:
+    metadata:
+      labels:
+        app: platformops-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: platformops-lab-frontend:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platformops-api
+  namespace: platformops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: platformops-api
+  template:
+    metadata:
+      labels:
+        app: platformops-api
+    spec:
+      containers:
+      - name: api
+        image: platformops-lab-api:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
