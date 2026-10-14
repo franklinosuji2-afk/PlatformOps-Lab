@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: platformops
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/franklinosuji2-afk/PlatformOps-Lab
+  ref:
+    branch: main
