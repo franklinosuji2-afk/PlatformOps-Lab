@@ -1,17 +1,29 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Node
 node_modules/
+npm-debug.log*
+
+# Environment / secrets
 .env
 .env.*
-dist/
-coverage/
+!.env.example
 
-.terraform/
-terraform.tfstate
-terraform.tfstate.*
-
+# OS / IDE
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
 
-*.log
-
-.DS_Store
-Thumbs.db
+# Test / build output
+coverage/
+dist/
+build/

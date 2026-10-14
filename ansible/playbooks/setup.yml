@@ -1,0 +1,33 @@
+---
+# Local preflight check: confirms the tools needed for this lab are installed.
+# Run: ansible-playbook ansible/playbooks/setup.yml
+- name: PlatformOps-Lab preflight
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    required_tools:
+      - docker
+      - kubectl
+      - kind
+      - terraform
+  tasks:
+    - name: Check that each required tool is on the PATH
+      ansible.builtin.command: "which {{ item }}"
+      loop: "{{ required_tools }}"
+      register: tool_check
+      changed_when: false
+      failed_when: false
+
+    - name: Report missing tools
+      ansible.builtin.debug:
+        msg: "{{ item.item }}: {{ 'found at ' ~ item.stdout if item.rc == 0 else 'MISSING' }}"
+      loop: "{{ tool_check.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Fail if anything is missing
+      ansible.builtin.assert:
+        that: tool_check.results | selectattr('rc', 'ne', 0) | list | length == 0
+        fail_msg: "Install the tools marked MISSING above, then run this playbook again."
+        success_msg: "All required tools are installed."
