@@ -24,6 +24,7 @@ This is a personal learning project, not a production system.
 - Trivy reports HIGH and CRITICAL findings in the job summary but does not fail the build yet.
 - Snyk runs only if a `SNYK_TOKEN` repository secret is set.
 - There is no Helm chart in this repository yet.
+- The Argo CD setup has been run on a local Kind cluster. The Flux manifests have not been run yet.
 
 ## Run it with Docker Compose
 
@@ -69,9 +70,15 @@ kubectl apply -k kubernetes/overlays/local
 kubectl get pods -n platformops
 ```
 
+Resource note: Kind with Argo CD needs more memory than Docker Desktop's default on a small machine. On a computer with 8 GB of RAM, a 3.9 GB WSL limit made `kube-controller-manager` and `kube-scheduler` crash-loop. Setting `memory=5GB` in `%USERPROFILE%\.wslconfig` and stopping the Compose stack while running the cluster fixed it.
+
 ## GitOps with Argo CD
 
 See [gitops/README.md](gitops/README.md). In short: install Argo CD, apply `gitops/argocd/application.yaml`, and Argo CD keeps the cluster in sync with `kubernetes/overlays/local` on `main`. A Flux version of the same setup is in `gitops/flux/`.
+
+Argo CD v3.5.5 on the local Kind cluster, synced to `main` and healthy, with the namespace, services, deployments and pods created from `kubernetes/overlays/local`:
+
+![Argo CD application platformops, Healthy and Synced](docs/screenshots/argocd-application.png)
 
 ## Terraform
 
